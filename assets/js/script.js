@@ -154,7 +154,30 @@ function togglePreview() {
 function loadLandingPreview() {
   if (!state.landingPage) return;
   const iframe = document.getElementById('landing-iframe');
-  iframe.srcdoc = state.landingPage;
+  iframe.srcdoc = patchLandingPageForIframe(state.landingPage);
+}
+
+function patchLandingPageForIframe(html) {
+  let patched = html;
+
+  const baseTag = '<base href="about:blank" target="_self">';
+  if (/<base\b/i.test(patched)) {
+    patched = patched.replace(/<base[^>]*>/i, baseTag);
+  } else if (/<head[^>]*>/i.test(patched)) {
+    patched = patched.replace(/<head([^>]*)>/i, '<head$1>\n  ' + baseTag);
+  }
+
+  if (!/launchmind-nav-fix/i.test(patched)) {
+    const navFix = `<style id="launchmind-nav-fix">html{scroll-behavior:smooth}[id]{scroll-margin-top:5rem}</style>
+<script id="launchmind-nav-fix">(function(){document.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;var h=(a.getAttribute('href')||'').trim();if(!h||h==='#'){e.preventDefault();return}if(h.charAt(0)==='#'){e.preventDefault();var id=h.slice(1);if(!id)return;var t=document.getElementById(id);if(t){t.scrollIntoView({behavior:'smooth',block:'start'});if(history.replaceState)history.replaceState(null,'','#'+id)}return}if(!/^(https?:|mailto:|tel:)/i.test(h))e.preventDefault()},true)})();</script>`;
+    if (/<\/body>/i.test(patched)) {
+      patched = patched.replace(/<\/body>/i, navFix + '\n</body>');
+    } else {
+      patched += navFix;
+    }
+  }
+
+  return patched;
 }
 
 function setPreviewMode(mode, btn) {
