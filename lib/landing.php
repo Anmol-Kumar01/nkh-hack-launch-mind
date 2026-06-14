@@ -94,7 +94,7 @@ function fixLandingNavAnchors(string $html): string {
 }
 
 function injectLandingNavigation(string $html): string {
-    $baseTag = '<base target="_self">';
+    $baseTag = '<base href="about:blank" target="_self">';
     $navStyles = <<<'CSS'
 <style id="launchmind-nav-fix">
   html { scroll-behavior: smooth; }
@@ -138,8 +138,12 @@ CSS;
 </script>
 JS;
 
-    if (preg_match('/<head[^>]*>/i', $html) && !preg_match('/<base\b/i', $html)) {
-        $html = preg_replace('/(<head[^>]*>)/i', '$1' . "\n  " . $baseTag, $html, 1);
+    if (preg_match('/<head[^>]*>/i', $html)) {
+        if (preg_match('/<base\b/i', $html)) {
+            $html = preg_replace('/<base[^>]*>/i', $baseTag, $html, 1);
+        } else {
+            $html = preg_replace('/(<head[^>]*>)/i', '$1' . "\n  " . $baseTag, $html, 1);
+        }
     }
 
     if (!preg_match('/id=["\']launchmind-nav-fix["\']/i', $html)) {
