@@ -21,8 +21,8 @@ Turn a business goal into a full launch kit: market research, marketing content,
 ### 1. Clone & configure
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/launch-mind.git
-cd launch-mind
+git clone https://github.com/Anmol-Kumar01/nkh-hack-launch-mind.git
+cd nkh-hack-launch-mind
 
 # Create your local env file (never commit this)
 cp .env.example .env   # or create manually
@@ -65,7 +65,7 @@ Each agent is a separate PHP file under `agents/`. The frontend calls `api.php`,
 ## Project Structure
 
 ```
-launch-mind/
+nkh-hack-launch-mind/
 ├── index.php              # UI (dashboard, nav, output panels)
 ├── api.php                # API router + config
 ├── agents/
