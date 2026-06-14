@@ -41,7 +41,13 @@ MANDATORY <head>: use this structure (replace BUSINESS_NAME and pick colors that
 
 YOU MUST INCLUDE ALL 12 SECTIONS BELOW IN ORDER: each fully styled with Tailwind classes:
 
-1. **Sticky Navbar**: logo/brand name, 4 nav links (Features, How It Works, Pricing, FAQ), CTA button. Dark bg with blur: `bg-gray-950/80 backdrop-blur-lg border-b border-white/10`
+1. **Sticky Navbar**: logo/brand name, 4 nav links (Features, How It Works, Pricing, FAQ), CTA button. Dark bg with blur: `bg-gray-950/80 backdrop-blur-lg border-b border-white/10`. Navbar links MUST use in-page anchors only: `href="#features"`, `href="#how-it-works"`, `href="#pricing"`, `href="#faq"`. NEVER use `href="#"`, `href="/"`, or relative file paths.
+
+NAVIGATION RULES (CRITICAL):
+- Every major `<section>` MUST have a matching `id`: `hero`, `features`, `how-it-works`, `pricing`, `faq`, etc.
+- All navbar, footer, and CTA links that scroll within the page MUST use `href="#section-id"` matching those ids exactly.
+- NEVER use `href="#"`, `href="/"`, `href="index.html"`, or any relative URL for in-page navigation.
+- External links (social, email) may use full `https://` or `mailto:` URLs only.
 
 2. **Hero Section**: full viewport feel, gradient background (.hero-glow), large headline with .gradient-text, subheadline, 2 CTA buttons (primary filled + secondary outline), hero image placeholder or SVG illustration using colored divs/shapes, 3 stat badges below (e.g. "10K+ Users", "98% Satisfaction", "$2M Raised")
 
